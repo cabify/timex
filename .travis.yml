@@ -8,10 +8,12 @@ env:
   - GO111MODULE=on
 
 install:
-  - make install
+  - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.22.2
 
 script:
   - make test
+  - golangci-lint run
 
 after_success:
-  - make report-coveralls
+  - go get github.com/mattn/goveralls
+  - goveralls -coverprofile=coverage.out -service=travis-ci
