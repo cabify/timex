@@ -51,8 +51,9 @@ func Override(implementation Implementation) func() {
 }
 
 // impl stores the current implementation being used
-// we don't use the RWMutex to read the impl itself because atomic.Value is faster in a _frequent read - unfrequent write_
-// scenario according to the docs https://tip.golang.org/pkg/sync/atomic/#Value
+// we don't use the RWMutex to read the impl itself because atomic.Value is faster
+// in a _frequent read - unfrequent write_ scenario according to the docs
+// https://tip.golang.org/pkg/sync/atomic/#Value
 var impl atomic.Value
 
 type implValue struct{ Implementation }
