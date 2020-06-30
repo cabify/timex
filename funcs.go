@@ -45,7 +45,7 @@ func Override(implementation Implementation) func() {
 	overridden.Lock()
 	impl.Store(implValue{implementation})
 	return func() {
-		impl.Store(implValue{defaultImpl{}})
+		impl.Store(implValue{Default{}})
 		overridden.Unlock()
 	}
 }
@@ -59,5 +59,5 @@ var impl atomic.Value
 type implValue struct{ Implementation }
 
 func init() {
-	impl.Store(implValue{defaultImpl{}})
+	impl.Store(implValue{Default{}})
 }

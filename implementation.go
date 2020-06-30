@@ -20,4 +20,4 @@ type Implementation interface {
 }
 
 //go:generate mockery -case underscore -outpkg timexmock -output timexmock -name Implementation
-var _ Implementation = defaultImpl{}
+var _ Implementation = Default{}

@@ -8,19 +8,19 @@ import (
 )
 
 func TestDefault_Now(t *testing.T) {
-	diff := time.Since(defaultImpl{}.Now())
+	diff := time.Since(Default{}.Now())
 	assert.True(t, diff < time.Second)
 	assert.True(t, diff > 0)
 }
 
 func TestDefault_Since(t *testing.T) {
-	diff := defaultImpl{}.Since(time.Now())
+	diff := Default{}.Since(time.Now())
 	assert.True(t, diff < time.Second)
 	assert.True(t, diff > 0)
 }
 
 func TestDefault_Until(t *testing.T) {
-	diff := defaultImpl{}.Until(time.Now())
+	diff := Default{}.Until(time.Now())
 	assert.True(t, diff < 0)
 	assert.True(t, diff > -time.Second)
 }
@@ -29,7 +29,7 @@ func TestDefault_AfterFunc(t *testing.T) {
 	timeout := time.After(time.Second)
 	ok := make(chan struct{})
 
-	defaultImpl{}.AfterFunc(time.Millisecond, func() { close(ok) })
+	Default{}.AfterFunc(time.Millisecond, func() { close(ok) })
 
 	select {
 	case <-ok:
@@ -44,7 +44,7 @@ func TestDefault_Sleep(t *testing.T) {
 	ok := make(chan struct{})
 
 	go func() {
-		defaultImpl{}.Sleep(time.Millisecond)
+		Default{}.Sleep(time.Millisecond)
 		close(ok)
 	}()
 
@@ -58,7 +58,7 @@ func TestDefault_Sleep(t *testing.T) {
 
 func TestDefault_After(t *testing.T) {
 	timeout := time.After(time.Second)
-	ok := defaultImpl{}.After(time.Millisecond)
+	ok := Default{}.After(time.Millisecond)
 
 	select {
 	case <-ok:
@@ -70,7 +70,7 @@ func TestDefault_After(t *testing.T) {
 
 func TestDefault_NewTicker(t *testing.T) {
 	timeout := time.After(time.Second)
-	ticker := defaultImpl{}.NewTicker(100 * time.Millisecond)
+	ticker := Default{}.NewTicker(100 * time.Millisecond)
 
 	select {
 	case <-ticker.C():
@@ -81,7 +81,7 @@ func TestDefault_NewTicker(t *testing.T) {
 
 	ticker.Stop()
 
-	ok := defaultImpl{}.After(200 * time.Millisecond)
+	ok := Default{}.After(200 * time.Millisecond)
 
 	select {
 	case <-ticker.C():
@@ -94,7 +94,7 @@ func TestDefault_NewTicker(t *testing.T) {
 func TestDefault_NewTimer(t *testing.T) {
 	t.Run("tick", func(t *testing.T) {
 		timeout := time.After(time.Second)
-		timer := defaultImpl{}.NewTimer(100 * time.Millisecond)
+		timer := Default{}.NewTimer(100 * time.Millisecond)
 
 		select {
 		case <-timer.C():
@@ -105,7 +105,7 @@ func TestDefault_NewTimer(t *testing.T) {
 	})
 
 	t.Run("stop", func(t *testing.T) {
-		timer := defaultImpl{}.NewTimer(100 * time.Millisecond)
+		timer := Default{}.NewTimer(100 * time.Millisecond)
 		timer.Stop()
 
 		ok := After(200 * time.Millisecond)
